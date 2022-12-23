@@ -1,10 +1,12 @@
 # Impact of Climate Change on Water Resources
-## Authors: Francesco Mauro, Alessandro Sebastianelli, Silvia Liberata Ullo
+#### Authors: Francesco Mauro, [Alessandro Sebastianelli](https://alessandrosebastianelli.github.io/), Silvia Liberata Ullo
 
 
 This repository contains the code related to our paper submitted to IGARSS2023
 
+Please note that in this repository you can find a small subset of the dataset, made available here to explore the structure of the final dataset and to have a quick look to the data. The final dataset will be available on [IEEE Data Port](https://ieee-dataport.org/search/node).
 
+[Click here]() to have acces to the dataset.
 
 ## Citations
 
@@ -24,8 +26,13 @@ The dataset has been built with the scripts proposed in:
 
 while the code relates to:
 
-	@article{mauro2022SEN2-water-bodies,
-		title={}
-		author={Mauro, Francesco and Sebastianelli, Alessandro and Ullo, Silvia Liberata},
+	@inproceedings{mauro2023water,
+		title={},
+		author={Maruo, Francesco and Sebastianelli, Alessandro and Ullo, Silvia Liberata},
+		booktitle={IGARSS 2023-2023 IEEE International Geoscience and Remote Sensing Symposium},
+		pages={},
+		year={2023},
+		organization={IEEE}
 	}
+
 
