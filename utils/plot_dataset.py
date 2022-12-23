@@ -5,7 +5,7 @@ import os
 from dataio.datareader import datareader
 from dataio.datahandler import datahandler
 
-def plot_series(dataset_root_path, t_len = 30, n_samples = 5):
+def plot_series(dataset_root_path, img_shape, bands, t_len = 30, n_samples = 5):
     '''
         This snippet will plot some samples from the dataset.
 
@@ -25,14 +25,14 @@ def plot_series(dataset_root_path, t_len = 30, n_samples = 5):
 
     # Load images from dataset
     d_handler = datahandler(dataset_root_path)
-    imgs      = datareader.load_samples(d_handler.paths, n_samples, (300,300,3), normalize = True)
+    imgs      = datareader.load_samples(d_handler.paths, n_samples, img_shape, normalize = True)
 
     # Create figure
     fig, axes = plt.subplots(nrows = n_samples, ncols = t_len, figsize = (3*t_len, 4*n_samples))
 
     for n in range(n_samples):
         for t in range(t_len):
-            axes[n, t].imshow(imgs[n,t,...], cmap='magma')
+            axes[n, t].imshow(imgs[n,t, :, :, bands], cmap='magma')
 
             axes[n, t].set(xticklabels=[])
             axes[n, t].set(yticklabels=[])

@@ -81,10 +81,10 @@ class datareader:
             for i, t in enumerate(imgs_path):
                 img, _ = datareader.load(t)
 
-                if normalize != None: img = normalizer.minmax_scaler(img)
+                if normalize != None: img = normalizer.max_scaler(img, 10000)
                 if img_shape != img.shape: img = cv2.resize(img, img_shape[:2])
 
-                imgs[n, i, ...] = img
+                imgs[n, i, ...] = img[:,:,:img_shape[2]]
 
 
         return imgs
