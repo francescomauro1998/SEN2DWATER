@@ -1,6 +1,6 @@
 from .normalizer import normalizer
 import matplotlib.pyplot as plt
-from tqmd.auto import tqdm
+from tqdm.auto import tqdm
 import numpy as np
 import rasterio
 import random
@@ -71,18 +71,20 @@ class datareader:
                 - imgs: loaded images, 1st dim. samples, 2nd dim. time, 3rd-4th dims. space, 5th dim. bands
 
         '''
-
-        imgs = np.zeros((n_samples, len(dataset[0]), img_shape[0], img_shape[1], img_shape[2]))
+        
+        dataset = list(dataset.values())
+        t_len = len(dataset[0])
+        imgs = np.zeros((n_samples, t_len, img_shape[0], img_shape[1], img_shape[2]))
 
         for n in tqdm(range(n_samples), colour='black'):
             imgs_path = dataset[n]
-            for t in imgs_path:
-                img = self.load(imgs_path[t])
+            for i, t in enumerate(imgs_path):
+                img, _ = datareader.load(t)
 
                 if normalize != None: img = normalizer.minmax_scaler(img)
                 if img_shape != img.shape: img = cv2.resize(img, img_shape[:2])
 
-                imgs[n, t, ...] = img
+                imgs[n, i, ...] = img
 
 
         return imgs
