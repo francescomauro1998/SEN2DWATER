@@ -5,8 +5,7 @@ from .config import config
 
 class LSTMv1:
 
-	def __init__(self, shape):
-        
+    def __init__(self, shape):
         self.shape        = shape
         self.depth        = LSTM_CFG['FILTERS']
         self.kernels      = LSTM_CFG['KERNEL']
@@ -17,8 +16,8 @@ class LSTMv1:
 		self.model = self.__build()
         
 	def __build(self):
-       	x_in = Input(shape = self.shape)
-		x = x_in
+        x_in = Input(shape = self.shape)
+        x = x_in
 
 	    for i, filt in enumerate(self.depth):
 		    
