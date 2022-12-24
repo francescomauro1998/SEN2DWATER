@@ -71,7 +71,6 @@ class LSTMv1:
                                            self.shape,
                                            normalize=normalize)
         # Callbacks
-
         tb_path = os.path.join('tmp', 'LSTMv1', datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         
         tb = TensorBoard(log_dir=tb_path, histogram_freq=1)
@@ -80,10 +79,9 @@ class LSTMv1:
                            mode='auto',
                            verbose=0,
                            baseline=None)
-        pl = PlotterTensorboard(model = self.model, generator = val_gen_2, log_path = tb_path)
-
-       
-                
+        pl = PlotterTensorboard(model = self.model, generator = val_gen_2, log_path = tb_path)       
+    
+        # Training
         hist = self.model.fit(
                                   train_gen,
             steps_per_epoch     = len(train_set[0])//self.bs,
@@ -104,25 +102,21 @@ class PlotterTensorboard(Callback):
         self.writer     = tf.summary.create_file_writer(log_path)
 
     def on_epoch_end(self, epoch, logs={}):
-        x_in, _ = self.generator
+        x_in, y_in = self.generator
         y_pr = self.model.predict(x_in, verbose=0)
 
         # Tensorboard visualization
         with self.writer.as_default():
-            tf.summary.image(name='Ground Truth', data=x_in, step=epoch, max_outputs=10)
-            tf.summary.image(name='Prediction',   data=y_pr, step=epoch, max_outputs=10)
+            tf.summary.image(name='Ground Truth', data=y_in, step=epoch, max_outputs=3)
+            tf.summary.image(name='Prediction',   data=y_pr, step=epoch, max_outputs=3)
         
         # Save results
-        gt_path = os.path.join(self.log_path, 'res', 'gt', 'epoch-{}'.format(epoch))
-        pr_path = os.path.join(self.log_path, 'res', 'pr', 'epoch-{}'.format(epoch))
+        #gt_path = os.path.join(self.log_path, 'res', 'gt', 'epoch-{}'.format(epoch))
+        #pr_path = os.path.join(self.log_path, 'res', 'pr', 'epoch-{}'.format(epoch))
 
-        os.makedirs(gt_path, exist_ok = True)
-        os.makedirs(pr_path, exist_ok = True)
-        for i in range(x_in.shape[0]):
-            plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (x_in[i,...]*255).astype(np.uint8))
-            plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...]*255).astype(np.uint8))
-
-
-
-
-                
+        #os.makedirs(gt_path, exist_ok = True)
+        #os.makedirs(pr_path, exist_ok = True)
+        #for i in range(x_in.shape[0]):
+        #    plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (x_in[i,...]*255).astype(np.uint8))
+        #    plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...]*255).astype(np.uint8))
+       

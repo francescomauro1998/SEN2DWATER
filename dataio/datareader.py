@@ -58,6 +58,20 @@ class datareader:
         return data, metadata
 
     @staticmethod
+    def generator(dataset, batch_size, img_shape, normalize=True):
+        '''
+            TO-DO
+        '''
+        pass
+    
+    @statichmethod
+    def generatorv2(dataset, batch_size, img_shape, normalize=True):
+        '''
+            TO-DO
+        '''
+        pass
+
+    @staticmethod
     def load_samples(dataset, n_samples, img_shape, normalize = True):
         '''
             Load N samples from the dataset
