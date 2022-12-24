@@ -64,7 +64,7 @@ class datareader:
         '''
         pass
     
-    @statichmethod
+    @staticmethod
     def generatorv2(dataset, batch_size, img_shape, normalize=True):
         '''
             TO-DO

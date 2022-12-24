@@ -1,0 +1,8 @@
+numpy
+matplotlib
+rasterio
+tensorflow
+tensorboard
+opencv-python
+jupyter
+
