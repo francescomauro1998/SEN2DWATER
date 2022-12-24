@@ -19,7 +19,7 @@ class LSTMv1:
         x_in = Input(shape = self.shape)
         x = x_in
 
-	    for i, filt in enumerate(self.depth):
+        for i, filt in enumerate(self.depth):
 		    
             if i < len(self.depth): return_sequence = True
             else: return_sequence = False
