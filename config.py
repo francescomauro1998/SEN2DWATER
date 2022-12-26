@@ -1,6 +1,3 @@
-
-
-
 import os
 
 # This represents the root path for the dataset, arrange it as it suits you

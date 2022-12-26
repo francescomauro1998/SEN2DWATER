@@ -33,7 +33,7 @@ class LSTMv1:
         self.model = self.__build()
 
     def __build(self):
-        x_in = Input(shape = self.shape)
+        x_in = Input(shape = (self.shape[0], None, None, self.shape[-1]))
         x = x_in
 
         for i, filt in enumerate(self.depth):
