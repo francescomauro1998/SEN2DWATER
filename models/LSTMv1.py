@@ -14,7 +14,7 @@ import os
 
 from dataio.datareader import datareader
 
-from .config import LSTM_CFG
+from config import LSTM_CFG
 
 class LSTMv1:
 
