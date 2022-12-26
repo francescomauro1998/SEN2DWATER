@@ -9,7 +9,6 @@ PATCH_WIDTH     = 64
 PATCH_HEIGHT    = 64
 BANDS           = 1
 
-
 # This dictionary contains all the settins for the LSTM
 LSTM_CFG = {
                 'FILTERS':                  [64, 32, 16],

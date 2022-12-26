@@ -17,8 +17,24 @@ from dataio.datareader import datareader
 from config import LSTM_CFG
 
 class LSTMv1:
+    '''
+        This class implements a Convolutional Long Short-Term Memory. The implementation
+        is based on the Keras Next-Frame Video Prediction model presented here:
+        https://keras.io/examples/vision/conv_lstm/
 
+        The implementation has been adapted to work with Earth Observation data.
+    '''
     def __init__(self, shape):
+        '''
+            The constructure takes care of creating the LSTMv1 object and contains all the
+            functions used to create and train/test the ConvLSTM model. The settings for the
+            model are saved into a config file.
+
+            Inputs:
+                - shape: input shape for the ConvLSTM. Must be a 4-D tuple (T,W,H,B) with T
+                         size of temporal series, W image width, H image height and B number
+                         of image channels (bands).
+        '''
         self.shape        = shape
         self.depth        = LSTM_CFG['FILTERS']
         self.kernels      = LSTM_CFG['KERNELS']
@@ -30,17 +46,29 @@ class LSTMv1:
         self.epochs       = LSTM_CFG['EPOCHS']
         self.es_rounds    = LSTM_CFG['EARLY_STOPPING_ROUNDS']
         
+        # Build and compile the model
         self.model = self.__build()
 
     def __build(self):
+        '''
+            This prive method builds the ConvLSTM model.
+
+            Outputs:
+                - model: built and compiled ConvLSTM model.
+        '''
         x_in = Input(shape = (self.shape[0], None, None, self.shape[-1]))
         x = x_in
-
+        
+        # Based on the desired depth, the following chunk of code will append
+        # ConvLSTM layers to the model
         for i, filt in enumerate(self.depth):
 		    
+            # The return sequences parameters of the last layer only, is set to
+            # False.
+
             return_sequences = True
             if i == (len(self.depth) - 1): return_sequences = False
-
+            
             x = ConvLSTM2D(
                     filters          = filt,
                     kernel_size      = self.kernels[i],
@@ -48,15 +76,38 @@ class LSTMv1:
                     activation       = self.activations[i],
                     return_sequences = return_sequences)(x)
             x = BatchNormalization()(x)
-
+        
+        # The final layer is a Conv2D layer
         x = Conv2D(self.shape[-1], kernel_size = (3,3), activation='sigmoid', padding='same')(x)
-
+        # Create the model
         model = Model(inputs = x_in, outputs=x, name = 'LSTMv1')
+        # Compile the model with optimizer and loss
         model.compile(optimizer = Adam(self.lr), loss = self.loss) 
 
         return model
     
     def train(self, train_set, val_set, normalize=True):
+        '''
+            This public method will take care of the training process.
+            
+            Inputs:
+                - train_set: python dictionary -> keys: geo locations, values: image time sequences paths
+                - val_set: as above, but for validation
+                - normalize: boolean flag used to specify if the images need to be normalized or not
+            Outputs:
+                - history: training history
+            
+            ----------------------------------------------------------------------------------------------
+            Please note that a TensorBoard callbak is associated with this method. If you want to monitor
+            the training you can lunch the following command in the terminal:
+            
+            $ tensorboard --logdir tmp/LSTMv1
+
+            Please note that for each training process a specific folder will be created using the date and
+            time of the execution. In this way you can monitor several experiments. The callback will show
+            the training curves as well as some images predictions on validation set.
+        '''
+
         # Training and Validation data loader
         train_gen = datareader.generator(train_set, 
                                          self.bs,
@@ -95,6 +146,10 @@ class LSTMv1:
 
 
 class PlotterTensorboard(Callback):
+    '''
+        This class relates to the TensorBoard callbacks specified in train function above.
+    '''
+
     def __init__(self, model, generator, log_path):
         self.generator  = generator
         self.model      = model

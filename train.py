@@ -8,9 +8,9 @@ from config import *
 
 
 # Loading the dataset
-dh = datahandler(dataset_root_path)
-keys = list(dh.paths.keys())
-t_len = len(dh.paths[keys[0]])
+dh       = datahandler(dataset_root_path)
+keys     = list(dh.paths.keys())
+t_len    = len(dh.paths[keys[0]])
 
 print('{:=^100}'.format(' Loading the dataset '))
 print('\t -{:<50s} {}'.format('Number of GeoLocation', len(keys)))
