@@ -90,7 +90,7 @@ class datareader:
         t_len = len(dataset[0])
         imgs = np.zeros((n_samples, t_len, img_shape[0], img_shape[1], img_shape[2]))
 
-        for n in tqdm(range(n_samples), colour='black'):
+        for n in tqdm(range(n_samples), colour='blue'):
             imgs_path = dataset[n]
             for i, t in enumerate(imgs_path):
                 img, _ = datareader.load(t)

@@ -46,8 +46,9 @@ def plot_series(dataset_root_path, img_shape, bands, t_len = 30, n_samples = 5):
 
 
     fig.tight_layout()
-    plt.show()
+    #plt.show()
     fig.savefig(os.path.join(save_path, 'dataset.png')) # Save figure
     plt.close()
-
+    
+    print('\t * Figure saved at "{}"'.format(save_path))
 

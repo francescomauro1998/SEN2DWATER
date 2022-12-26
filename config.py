@@ -6,7 +6,11 @@ import os
 # This represents the root path for the dataset, arrange it as it suits you
 dataset_root_path = os.path.join('datasets', 'S2-water')
 
-
+# Image settings to feed LSTM
+T_LEN           = 10
+PATCH_WIDTH     = 64
+PATCH_HEIGHT    = 64
+BANDS           = 1
 
 
 # This dictionary contains all the settins for the LSTM

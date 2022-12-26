@@ -56,7 +56,7 @@ class datahandler:
         geo_locations = glob.glob(os.path.join(self.dataset_root, '*'))
 
         paths = {}
-        for i, c in tqdm(enumerate(geo_locations), disable=not(verbose), colour='black'):
+        for i, c in tqdm(enumerate(geo_locations), disable=not(verbose), colour='blue'):
             imgs_c = glob.glob(os.path.join(c, '*'))
             imgs_c.sort()
             paths[c.split(os.sep)[-1]] = imgs_c
