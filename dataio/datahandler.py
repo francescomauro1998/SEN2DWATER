@@ -44,7 +44,7 @@ class datahandler:
 
         self.dataset_root = dataset_root
         self.paths = self.__load_paths()
-
+    
     def __load_paths(self, verbose=False):
         '''
             Loads the images path
@@ -62,3 +62,23 @@ class datahandler:
             paths[c.split(os.sep)[-1]] = imgs_c
 
         return paths
+    
+    def split(self, split_factor = 0.2):
+        '''
+            Splits the dataset in training and validation sets.
+
+            Inputs:
+                - split_factor: float number [0,1] used to split the dataset
+            Outputs:
+                - (train_set, val_set): tuple containing training set and validation set
+
+        '''
+        
+        l = len(list(self.paths.keys()))
+
+        vl = int(l*split_factor)
+        tl = l - vl
+
+        train_set = {k:self.paths[k] for k in list(self.paths.keys())[:tl]}
+        val_set   = {k:self.paths[k] for k in list(self.paths.keys())[tl:]}        
+        return train_set, val_set

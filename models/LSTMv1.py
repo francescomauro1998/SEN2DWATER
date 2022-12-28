@@ -35,7 +35,8 @@ class LSTMv1:
                          size of temporal series, W image width, H image height and B number
                          of image channels (bands).
         '''
-        self.shape        = shape
+        self.shape        = shape[1:]
+        self.t_len        = shape[0]
         self.depth        = LSTM_CFG['FILTERS']
         self.kernels      = LSTM_CFG['KERNELS']
         self.activations  = LSTM_CFG['ACTIVATIONS']
@@ -56,7 +57,7 @@ class LSTMv1:
             Outputs:
                 - model: built and compiled ConvLSTM model.
         '''
-        x_in = Input(shape = (self.shape[0], None, None, self.shape[-1]))
+        x_in = Input(shape = (self.t_len-1, None, None, self.shape[-1]))
         x = x_in
         
         # Based on the desired depth, the following chunk of code will append
@@ -111,14 +112,17 @@ class LSTMv1:
         # Training and Validation data loader
         train_gen = datareader.generator(train_set, 
                                          self.bs,
+                                         self.t_len,
                                          self.shape,
                                          normalize=normalize)
         val_gen   = datareader.generator(val_set,
                                          self.bs,
+                                         self.t_len,
                                          self.shape,
                                          normalize=normalize)
         val_gen_2 = datareader.generatorv2(val_set,
                                            self.bs,
+                                           self.t_len,
                                            self.shape,
                                            normalize=normalize)
         # Callbacks
@@ -135,10 +139,10 @@ class LSTMv1:
         # Training
         hist = self.model.fit(
                                   train_gen,
-            steps_per_epoch     = len(train_set[0])//self.bs,
+            steps_per_epoch     = len(train_set.values())//self.bs,
             epochs              = self.epochs,
             validation_data     = val_gen,
-            validation_steps    = len(val_set[0])//self.bs,
+            validation_steps    = len(val_set.values())//self.bs,
             callbacks           = [es, tb, pl]
         )
 
@@ -162,16 +166,16 @@ class PlotterTensorboard(Callback):
 
         # Tensorboard visualization
         with self.writer.as_default():
-            tf.summary.image(name='Ground Truth', data=y_in, step=epoch, max_outputs=3)
-            tf.summary.image(name='Prediction',   data=y_pr, step=epoch, max_outputs=3)
+            tf.summary.image(name='Ground Truth', data=(y_in*255).astype(np.uint8), step=epoch, max_outputs=3)
+            tf.summary.image(name='Prediction',   data=(y_pr*255).astype(np.uint8), step=epoch, max_outputs=3)
         
         # Save results
-        #gt_path = os.path.join(self.log_path, 'res', 'gt', 'epoch-{}'.format(epoch))
-        #pr_path = os.path.join(self.log_path, 'res', 'pr', 'epoch-{}'.format(epoch))
+        gt_path = os.path.join(self.log_path, 'res', 'gt', 'epoch-{}'.format(epoch))
+        pr_path = os.path.join(self.log_path, 'res', 'pr', 'epoch-{}'.format(epoch))
 
-        #os.makedirs(gt_path, exist_ok = True)
-        #os.makedirs(pr_path, exist_ok = True)
-        #for i in range(x_in.shape[0]):
-        #    plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (x_in[i,...]*255).astype(np.uint8))
-        #    plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...]*255).astype(np.uint8))
+        os.makedirs(gt_path, exist_ok = True)
+        os.makedirs(pr_path, exist_ok = True)
+        for i in range(y_in.shape[0]):
+            plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (y_in[i,...,0]*255).astype(np.uint8))
+            plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...,0]*255).astype(np.uint8))
        
