@@ -1,4 +1,5 @@
 from .normalizer import normalizer
+from .spectral_indices import spectral_indices
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 import numpy as np
@@ -58,11 +59,41 @@ class datareader:
         return data, metadata
 
     @staticmethod
-    def generator(dataset, batch_size, img_shape, normalize=True):
+    def generator(dataset, batch_size, t_len, img_shape, normalize=True):
         '''
             TO-DO
         '''
-        pass
+
+        x_in = np.zeros((batch_size, t_len-1, img_shape[0], img_shape[1], 1))
+        x_ou = np.zeros((batch_size, img_shape[0], img_shape[1], 1))
+
+        dataset = list(dataset.values())
+        random.shuffle(dataset)
+
+        counter = 0
+
+        while True:
+
+            if counter > (len(dataset) - batch_size): 
+                counter = 0
+                random.shuffle(dataset)
+
+            for b in range(batch_size):
+                paths = dataset[counter]
+                counter += 1
+
+                for i in range(t_len):
+                    img, _ = datareader.load(paths[i])
+                    
+                    if normalize != None: img = normalizer.max_scaler(img, 10000)
+                    if img_shape != img.shape: img = cv2.resize(img, img_shape[:2])
+                     
+                    ndwi = spectral_indices.normalized_difference(img, [2,7])
+                    
+                    if i < (t_len - 1): x_in[b, i, :, :, 0] = ndwi 
+                    else:                x_ou[b,    :, :, 0] = ndwi
+            
+            yield x_in, x_ou
     
     @staticmethod
     def generatorv2(dataset, batch_size, img_shape, normalize=True):
