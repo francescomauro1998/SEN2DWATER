@@ -11,11 +11,12 @@ from dataio.datareader import datareader
 IMAGE_SHAPE = (300, 300, 13)
 PATCH_SHAPE = ( 64,  64, 13)
 
-root      = os.path.join('.','datasets','S2-water')
-locations = glob.glob(os.path.join(root, '*'))
+dataset_name = 'DATASET-1' 
+root         = os.path.join('.','datasets',dataset_name)
+locations    = glob.glob(os.path.join(root, '*'))
 
 # Loop through geo locations
-for i, loc_path in enumerate(locations):
+for i, loc_path in enumerate(tqdm(locations)):
     images = glob.glob(os.path.join(loc_path, '*'))
     # Loop through images in a geo location
     for j, img_path in enumerate(images):
@@ -32,10 +33,10 @@ for i, loc_path in enumerate(locations):
                 patch = img[x*PATCH_SHAPE[0]:(x+1)*PATCH_SHAPE[0], y*PATCH_SHAPE[1]:(y+1)*PATCH_SHAPE[1], :]
                 # Create path
                 patch_path = img_path.replace(loc_path.split(os.sep)[-1], 'p-{}-{}'.format(counter, loc_path.split(os.sep)[-1]))
-                patch_path = patch_path.replace('S2-water', 'S2-water-v2')
+                patch_path = patch_path.replace(dataset_name, dataset_name+'-v2')
                 patch_path = patch_path.replace('gee_data_', '')
 
-                print(patch_path)
+                #print(patch_path)
 
                 #patch_path = os.path.join(patch_path, 'p-{}'.format(counter))
                 os.makedirs(os.path.join(*patch_path.split(os.sep)[:-1]), exist_ok=True) 
