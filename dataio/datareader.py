@@ -57,6 +57,38 @@ class datareader:
             print('!!! File can not be opened, format not supported !!!')
             
         return data, metadata
+   
+    @staticmethod
+    def save(image, path, meta):
+        '''
+            Save an image and its metadata given its path
+            Inputs:
+                - image: the image to be saved
+                - path: position of the image
+                - meta: metadata for the image to be saved
+        '''
+
+        RASTERIO_EXTENSIONS   = ['.tif', '.tiff']
+        MATPLOTLIB_EXTENSIONS = ['.png', '.jpg', 'jpeg']
+
+        if any(frmt in path for frmt in RASTERIO_EXTENSIONS):
+
+            if meta!=None:
+                meta.update({'driver':'GTiff',
+                            'width':image.shape[0],
+                            'height':image.shape[1],
+                            'count':image.shape[2],
+                            'dtype':'float64'})
+
+            with rasterio.open(fp=path, mode='w',**meta) as dst:
+                for count in range(image.shape[2]):
+                    dst.write(image[:,:,count], count+1)
+
+        elif any(frmt in path for frmt in MATPLOTLIB_EXTENSIONS):
+            plt.imsave(path, image)
+
+        else:
+            print('[!] File cannot be saved, format not supported!')
 
     @staticmethod
     def generator(dataset, batch_size, t_len, img_shape, normalize=True):
@@ -84,7 +116,7 @@ class datareader:
 
                 for i in range(t_len):
                     img, _ = datareader.load(paths[i])
-                    
+                     
                     if normalize != None: img = normalizer.max_scaler(img, 10000)
                     if img_shape != img.shape: img = cv2.resize(img, img_shape[:2])
                      
@@ -96,11 +128,31 @@ class datareader:
             yield x_in, x_ou
     
     @staticmethod
-    def generatorv2(dataset, batch_size, img_shape, normalize=True):
+    def generatorv2(dataset, batch_size, t_len, img_shape, normalize=True):
         '''
             TO-DO
         '''
-        pass
+        x_in = np.zeros((batch_size, t_len-1, img_shape[0], img_shape[1], 1))
+        x_ou = np.zeros((batch_size, img_shape[0], img_shape[1], 1))
+
+        dataset = list(dataset.values())
+        rdn = (len(dataset)//batch_size)-batch_size
+        
+        for b in range(batch_size):
+            paths = dataset[b]
+
+            for i in range(t_len):
+                img, _ = datareader.load(paths[i])
+
+                if normalize != None: img = normalizer.max_scaler(img, 10000)
+                if img_shape != img.shape: img = cv2.resize(img, img_shape[:2])
+
+                ndwi = spectral_indices.normalized_difference(img, [2,7])
+
+                if i < (t_len - 1): x_in[b, i, :, :, 0] = ndwi
+                else:               x_ou[b,    :, :, 0] = ndwi
+
+        return x_in, x_ou
 
     @staticmethod
     def load_samples(dataset, n_samples, img_shape, normalize = True):
