@@ -5,16 +5,16 @@ dataset_root_path = os.path.join('datasets', 'DATASET-1-v2')
 SPLIT_FACTOR      = 0.2
 
 # Image settings to feed LSTM
-T_LEN           = 39
+T_LEN           = 7
 PATCH_WIDTH     = 64
 PATCH_HEIGHT    = 64
 BANDS           = 1
 
 # This dictionary contains all the settins for the LSTM
 LSTM_CFG = {
-                'FILTERS':                  [128, 128, 128, 64],
+                'FILTERS':                  [32, 32, 32, 32],
                 'KERNELS':                  [3, 3, 3, 3],
-                'ACTIVATIONS':              ['tanh', 'tanh', 'tanh','tanh'],
+                'ACTIVATIONS':              ['tanh', 'tanh', 'tanh', 'tanh'],
                 'LOSS':                     'huber',
                 'LEARNING_RATE':            0.00002,
                 'BATCH_SIZE':               10,
