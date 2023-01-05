@@ -14,7 +14,7 @@ BANDS           = 1
 LSTM_CFG = {
                 'FILTERS':                  [32, 32, 32, 32],
                 'KERNELS':                  [3, 3, 3, 3],
-                'ACTIVATIONS':              ['tanh', 'tanh', 'tanh', 'tanh'],
+                'ACTIVATIONS':              ['tanh', 'tanh', 'tanh', 'tanh', 'tanh'], # the last one is for the final Conv2D layer
                 'LOSS':                     'huber',
                 'LEARNING_RATE':            0.00002,
                 'BATCH_SIZE':               10,

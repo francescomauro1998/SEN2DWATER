@@ -18,7 +18,7 @@ from config import LSTM_CFG
 
 class BLSTMv1:
     '''
-        This class implements a Convolutional Long Short-Term Memory. The implementation
+        This class implements a Bidirectional Convolutional Long Short-Term Memory. The implementation
         is based on the Keras Next-Frame Video Prediction model presented here:
         https://keras.io/examples/vision/conv_lstm/
 
@@ -26,12 +26,12 @@ class BLSTMv1:
     '''
     def __init__(self, shape):
         '''
-            The constructure takes care of creating the LSTMv1 object and contains all the
-            functions used to create and train/test the ConvLSTM model. The settings for the
+            The constructure takes care of creating the BLSTM object and contains all the
+            functions used to create and train/test the BLSTM model. The settings for the
             model are saved into a config file.
 
             Inputs:
-                - shape: input shape for the ConvLSTM. Must be a 4-D tuple (T,W,H,B) with T
+                - shape: input shape for the BLSTM. Must be a 4-D tuple (T,W,H,B) with T
                          size of temporal series, W image width, H image height and B number
                          of image channels (bands).
         '''
@@ -52,16 +52,16 @@ class BLSTMv1:
 
     def __build(self):
         '''
-            This prive method builds the ConvLSTM model.
+            This prive method builds the BLSTM model.
 
             Outputs:
-                - model: built and compiled ConvLSTM model.
+                - model: built and compiled BLSTM model.
         '''
         x_in = Input(shape = (self.t_len-1, None, None, self.shape[-1]))
         x = x_in
         
         # Based on the desired depth, the following chunk of code will append
-        # ConvLSTM layers to the model
+        # BLSTM layers to the model
         for i, filt in enumerate(self.depth):
 		    
             # The return sequences parameters of the last layer only, is set to
@@ -80,7 +80,7 @@ class BLSTMv1:
             x = BatchNormalization()(x)
         
         # The final layer is a Conv2D layer
-        x = Conv2D(self.shape[-1], kernel_size = (3,3), activation='sigmoid', padding='same')(x)
+        x = Conv2D(self.shape[-1], kernel_size = (3,3), activation=self.activations[-1], padding='same')(x)
         # Create the model
         model = Model(inputs = x_in, outputs=x, name = 'BLSTM')
         # Compile the model with optimizer and loss
@@ -103,7 +103,7 @@ class BLSTMv1:
             Please note that a TensorBoard callbak is associated with this method. If you want to monitor
             the training you can lunch the following command in the terminal:
             
-            $ tensorboard --logdir tmp/LSTMv1
+            $ tensorboard --logdir tmp/BLSTM
 
             Please note that for each training process a specific folder will be created using the date and
             time of the execution. In this way you can monitor several experiments. The callback will show
@@ -127,7 +127,7 @@ class BLSTMv1:
                                            self.shape,
                                            normalize=normalize)
         # Callbacks
-        tb_path = os.path.join('tmp', 'LSTMv1', datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+        tb_path = os.path.join('tmp', 'BLSTMv1', datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         
         tb = TensorBoard(log_dir=tb_path, histogram_freq=1)
         es = EarlyStopping(monitor='val_loss', 

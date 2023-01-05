@@ -79,7 +79,7 @@ class LSTMv1:
             x = BatchNormalization()(x)
         
         # The final layer is a Conv2D layer
-        x = Conv2D(self.shape[-1], kernel_size = (3,3), activation='sigmoid', padding='same')(x)
+        x = Conv2D(self.shape[-1], kernel_size = (3,3), activation=self.activations[-1], padding='same')(x)
         # Create the model
         model = Model(inputs = x_in, outputs=x, name = 'LSTMv1')
         # Compile the model with optimizer and loss
