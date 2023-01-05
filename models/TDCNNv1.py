@@ -73,7 +73,14 @@ class TDCNNv1:
                     kernel_size      = self.kernels[i],
                     padding          = 'same',
                     activation       = self.activations[i]))(x)
-            x = BatchNormalization()(x)
+            x = TimeDistributed(BatchNormalization())(x)
+        
+        x = ConvLSTM2D(
+                filters          = filt,
+                kernel_size      = self.kernels[-1],
+                padding          = 'same',
+                activation       = self.activations[i],
+                return_sequences = False)(x)
         
         # The final layer is a Conv2D layer
         x = Conv2D(self.shape[-1], kernel_size = (3,3), activation=self.activations[-1], padding='same')(x)
