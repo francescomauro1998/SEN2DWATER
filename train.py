@@ -1,6 +1,8 @@
 from dataio.datahandler import datahandler
 from dataio.datareader import datareader
 from models.LSTMv1 import LSTMv1
+from models.BLSTMv1 import BLSTMv1
+from models.TDCNNv1 import TDCNNv1
 
 from utils.plot_dataset import plot_series 
 
@@ -23,7 +25,7 @@ print('\t -{:<50s} {}'.format('Number of GeoLocation (training)', len(train_set.
 print('\t -{:<50s} {}'.format('Number of GeoLocation (validation)', len(val_set.keys())))
 
 #========================================== Build model =============================================
-lstmv1 = LSTMv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
+lstmv1 = BLSTMv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
 
 print('{:=^100}'.format(' Building the Model '))
 print(lstmv1.model.summary())

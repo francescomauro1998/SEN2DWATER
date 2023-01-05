@@ -28,8 +28,8 @@ class spectral_indices:
         b2 = img[:,:,bands[1]]
 
         # Check for NaN and remove them
-#        b1[np.isnan(b1)] = 0
-#        b2[np.isnan(b2)] = 0
+        b1[np.isnan(b1)] = 0
+        b2[np.isnan(b2)] = 0
 
         # Apply formula
         nd = (b1 - b2)/ ((b1 + b2) + 0.00001)

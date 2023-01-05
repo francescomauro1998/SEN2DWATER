@@ -122,7 +122,7 @@ class datareader:
                      
                     ndwi = spectral_indices.normalized_difference(img, [2,7])
                     
-                    if i < (t_len - 1): x_in[b, i, :, :, 0] = ndwi 
+                    if i < (t_len - 1):  x_in[b, i, :, :, 0] = ndwi 
                     else:                x_ou[b,    :, :, 0] = ndwi
             
             yield x_in, x_ou
