@@ -1,4 +1,4 @@
-from tensorflow.keras.layers import Input, ConvLSTM2D, BatchNormalization, Conv2D, Bidirectional
+from tensorflow.keras.layers import Input, TimeDistributed, BatchNormalization, Conv2D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
@@ -16,7 +16,7 @@ from dataio.datareader import datareader
 
 from config import LSTM_CFG
 
-class BLSTMv1:
+class TDCNNv1:
     '''
         This class implements a Convolutional Long Short-Term Memory. The implementation
         is based on the Keras Next-Frame Video Prediction model presented here:
@@ -70,19 +70,17 @@ class BLSTMv1:
             return_sequences = True
             if i == (len(self.depth) - 1): return_sequences = False
             
-            x = Bidirectional(
-                ConvLSTM2D(
+            x = TimeDistributed(Conv2D(
                     filters          = filt,
                     kernel_size      = self.kernels[i],
                     padding          = 'same',
-                    activation       = self.activations[i],
-                    return_sequences = return_sequences))(x)
+                    activation       = self.activations[i]))(x)
             x = BatchNormalization()(x)
         
         # The final layer is a Conv2D layer
         x = Conv2D(self.shape[-1], kernel_size = (3,3), activation='sigmoid', padding='same')(x)
         # Create the model
-        model = Model(inputs = x_in, outputs=x, name = 'BLSTM')
+        model = Model(inputs = x_in, outputs=x, name = 'TDCNN')
         # Compile the model with optimizer and loss
         model.compile(optimizer = Adam(self.lr), loss = self.loss) 
 

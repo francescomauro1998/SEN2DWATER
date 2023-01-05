@@ -2,6 +2,7 @@ from dataio.datahandler import datahandler
 from dataio.datareader import datareader
 from models.LSTMv1 import LSTMv1
 from models.BLSTMv1 import BLSTMv1
+from models.TDCNNv1 import TDCNNv1
 
 from utils.plot_dataset import plot_series 
 
