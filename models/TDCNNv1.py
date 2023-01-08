@@ -3,7 +3,8 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
 
-from tensorflow.keras.callbacks import Callback
+from utils.PlotterTensorboard import PlotterTensorboard
+
 from tensorflow.keras import backend as K
 import tensorflow as tf
 
@@ -125,7 +126,7 @@ class TDCNNv1:
                                          self.shape,
                                          normalize=normalize)
         val_gen_2 = datareader.generatorv2(val_set,
-                                           self.bs,
+                                           self.bs*10,
                                            self.t_len,
                                            self.shape,
                                            normalize=normalize)
@@ -151,35 +152,3 @@ class TDCNNv1:
         )
 
         return hist
-
-
-class PlotterTensorboard(Callback):
-    '''
-        This class relates to the TensorBoard callbacks specified in train function above.
-    '''
-
-    def __init__(self, model, generator, log_path):
-        self.generator  = generator
-        self.model      = model
-        self.log_path   = log_path
-        self.writer     = tf.summary.create_file_writer(log_path)
-
-    def on_epoch_end(self, epoch, logs={}):
-        x_in, y_in = self.generator
-        y_pr = self.model.predict(x_in, verbose=0)
-
-        # Tensorboard visualization
-        with self.writer.as_default():
-            tf.summary.image(name='Ground Truth', data=(y_in*255).astype(np.uint8), step=epoch, max_outputs=3)
-            tf.summary.image(name='Prediction',   data=(y_pr*255).astype(np.uint8), step=epoch, max_outputs=3)
-        
-        # Save results
-        gt_path = os.path.join(self.log_path, 'res', 'gt', 'epoch-{}'.format(epoch))
-        pr_path = os.path.join(self.log_path, 'res', 'pr', 'epoch-{}'.format(epoch))
-
-        os.makedirs(gt_path, exist_ok = True)
-        os.makedirs(pr_path, exist_ok = True)
-        for i in range(y_in.shape[0]):
-            plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (y_in[i,...,0]*255).astype(np.uint8))
-            plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...,0]*255).astype(np.uint8))
-       
