@@ -39,16 +39,24 @@ class PlotterTensorboard(Callback):
             plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...,0]*255).astype(np.uint8))
 
             # Save results (text)
-            psnr.append(tf.image.psnr(y_in[i,...,0], y_pr[i,...,0]))
-            ssim.append(tf.image.ssim(y_in[i,...,0], y_pr[i,...,0]))
-            mse.append(tf.keras.metrics.mean_squared_error(y_in[i,...,0], y_pr[i,...,0]))
+            x = tf.cast(y_in[i,...], tf.float32)
+            y = tf.cast(y_pr[i,...], tf.float32)
+            m1 = tf.reduce_mean(tf.image.psnr(x, y, 2.0))
+            m2 = tf.reduce_mean(tf.image.ssim(x, y, 2.0))
+            m3 = tf.reduce_mean(tf.keras.metrics.mean_squared_error(x, y))
+            
+            psnr.append(m1.numpy())
+            ssim.append(m2.numpy())
+            mse.append(m3.numpy())
+
         
         # Save results (text)
-        df_path = os.path.join(self.log_path, 'res', 'df', 'epoch-{}'.format(epoch), 'results.csv')
-        
+        df_path = os.path.join(self.log_path, 'res', 'df', 'epoch-{}'.format(epoch))
+        os.makedirs(df_path, exist_ok = True)
+
         tosave = {"PNSR":psnr, "SSIM":ssim, "MSE":mse}
         df = pd.DataFrame(tosave)
-        df.to_csv(df_path, sep='\t')
+        df.to_csv(os.path.join(df_path, 'results.csv'), sep='\t')
 
         # Saving model
         model_path = os.path.join(self.log_path, 'model.h5')
