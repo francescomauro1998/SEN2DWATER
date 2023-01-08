@@ -24,14 +24,36 @@ print('{:=^100}'.format(' Splitting the dataset '))
 print('\t -{:<50s} {}'.format('Number of GeoLocation (training)', len(train_set.keys())))
 print('\t -{:<50s} {}'.format('Number of GeoLocation (validation)', len(val_set.keys())))
 
+#####################################################################################################
+#                                           ConvLSTM
+#####################################################################################################
 #========================================== Build model =============================================
-lstmv1 = BLSTMv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
-
+lstmv1 = LSTMv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
 print('{:=^100}'.format(' Building the Model '))
 print(lstmv1.model.summary())
-
 #========================================== Train model =============================================
 print('{:=^100}'.format(' Training the Model '))
-
 history = lstmv1.train(train_set, val_set, normalize = True)
+
+#####################################################################################################
+#                                   Bidirectional ConvLSTM
+#####################################################################################################
+#========================================== Build model =============================================
+blstmv1 = BLSTMv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
+print('{:=^100}'.format(' Building the Model '))
+print(blstmv1.model.summary())
+#========================================== Train model =============================================
+print('{:=^100}'.format(' Training the Model '))
+history = blstmv1.train(train_set, val_set, normalize = True)
+
+#####################################################################################################
+#                                   Time Distributed CNN
+#####################################################################################################
+#========================================== Build model =============================================
+tdcnnv1 = TDCNNv1(shape=(T_LEN, PATCH_WIDTH, PATCH_HEIGHT, BANDS))
+print('{:=^100}'.format(' Building the Model '))
+print(tdcnnv1.model.summary())
+#========================================== Train model =============================================
+print('{:=^100}'.format(' Training the Model '))
+history = tdcnnv1.train(train_set, val_set, normalize = True)
 

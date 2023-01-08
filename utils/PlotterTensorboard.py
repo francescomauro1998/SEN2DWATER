@@ -50,4 +50,7 @@ class PlotterTensorboard(Callback):
         df = pd.DataFrame(tosave)
         df.to_csv(df_path, sep='\t')
 
+        # Saving model
+        model_path = os.path.join(self.log_path, 'model.h5')
+        self.model.save(model_path)
             
