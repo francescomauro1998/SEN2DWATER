@@ -39,7 +39,7 @@ class PlotterTensorboard(Callback):
             plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...,0]*255).astype(np.uint8))
 
             # Save results (text)
-            pnsr.append(tf.image.psnr(y_in[i,...,0], y_pr[i,...,0]))
+            psnr.append(tf.image.psnr(y_in[i,...,0], y_pr[i,...,0]))
             ssim.append(tf.image.ssim(y_in[i,...,0], y_pr[i,...,0]))
             mse.append(tf.keras.metrics.mean_squared_error(y_in[i,...,0], y_pr[i,...,0]))
         
