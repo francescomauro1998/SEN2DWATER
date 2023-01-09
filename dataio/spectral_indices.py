@@ -66,7 +66,7 @@ class spectral_indices:
 
 
         # Apply formula
-        nd = (b1 - a*b2 - (1-a)*b3)/ ((b1 + a*b2 + (1-a)*b3) + 0.00001)
+        wnd = (b1 - a*b2 - (1-a)*b3)/ ((b1 + a*b2 + (1-a)*b3) + 0.00001)
 
         return wnd
 
