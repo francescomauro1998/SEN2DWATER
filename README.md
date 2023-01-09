@@ -1,18 +1,29 @@
-# Impact of Climate Change on Water Resources
-#### Authors: Francesco Mauro, [Alessandro Sebastianelli](https://alessandrosebastianelli.github.io/), Silvia Liberata Ullo
+![](imgs/dataset.png)
 
+# SEN2DWATER: A Novel Multitemporal Dataset and Deep Learning Benchmark For Water Resources Analysis
+#### Authors: Francesco Mauro, [Alessandro Sebastianelli](https://alessandrosebastianelli.github.io/), Silvia Liberata Ullo
 
 This repository contains the code related to our paper submitted to IGARSS2023
 
-Please note that in this repository you can find a small subset of the dataset, made available here to explore the structure of the final dataset and to have a quick look to the data. The final dataset will be available on [IEEE Data Port](https://ieee-dataport.org/search/node).
+Please note that in this repository you can find a small subset of the dataset, made available here to explore the structure of the final dataset and to have a quick look to the data. 
 
-[Click here]() to have acces to the dataset.
+[Click Here to Download the Final Dataset]()
+
+## Notes
+
+Please note that the results and the TensorBoard records are available in the [tep](tmp) folder. Each model has a separated folder in which you can find:
+
+- Visual and numerical results (res folder):
+	- df: dataframes for each epoch of training containing numerical results
+	- gt: ground truth images for each epoch of training
+	- pr: predicted images for each epoch of training
+- TensorBoard records for training and validation (train and validation folder)
+- Model weights at the last epoch: model.h5
 
 ## Citations
-
 Please cite our works when using our code and dataset.
 
-The dataset has been built with the scripts proposed in:
+The dataset has been built with a modified version of the scripts proposed in:
 
 	@article{sebastianelli2021automatic,
  		 title={Automatic dataset builder for Machine Learning applications to satellite imagery},
@@ -27,7 +38,7 @@ The dataset has been built with the scripts proposed in:
 while the code relates to:
 
 	@inproceedings{mauro2023water,
-		title={},
+		title={SEN2DWATER: A Novel Multitemporal Dataset and Deep Learning Benchmark For Water Resources Analysis},
 		author={Maruo, Francesco and Sebastianelli, Alessandro and Ullo, Silvia Liberata},
 		booktitle={IGARSS 2023-2023 IEEE International Geoscience and Remote Sensing Symposium},
 		pages={},
