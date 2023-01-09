@@ -35,8 +35,9 @@ class spectral_indices:
         nd = (b1 - b2)/ ((b1 + b2) + 0.00001)
 
         return nd
-     @staticmethod
-     def weighted_normalized_difference(img, bands, a):
+
+    @staticmethod
+    def weighted_normalized_difference(img, bands, a):
         '''
             Calculates the weighted normalized difference betweeen three bands.
             Inputs:
