@@ -9,6 +9,30 @@ Please note that in this repository you can find a small subset of the dataset, 
 
 [Click Here to Download the Final Dataset]()
 
+
+## Usage
+
+### Models training
+
+To train the models run the following command:
+
+`
+	python train.py
+`
+
+If you want to change some settings, you can edit the [config file](config.py). Here you can define:
+-  the dataset you want to use and its train-validation split 
+- image settings
+- models settings (there is only one entry that it is used for all the models)
+
+### TensorBoard
+
+You can visualize the training process (or the results provided by us) using the following command:
+
+`
+tensorboard --logdir tmp
+`
+ 
 ## Notes
 
 Please note that the results and the TensorBoard records are available in the [tmp](tmp) folder. Each model has a separated folder in which you can find:

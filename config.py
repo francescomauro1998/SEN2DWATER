@@ -4,7 +4,7 @@ import os
 dataset_root_path = os.path.join('datasets', 'DATASET-1-v2')
 SPLIT_FACTOR      = 0.2
 
-# Image settings to feed LSTM
+# Image settings
 T_LEN           = 7
 PATCH_WIDTH     = 64
 PATCH_HEIGHT    = 64

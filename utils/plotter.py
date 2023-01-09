@@ -5,69 +5,89 @@ import numpy as np
 import os
 
 
-from utils import plot_dataset
-
-
-## Uncomment the following lines to plot some samples of the dataset
-#plot_dataset.plot_series2('datasets/DATASET-1', (300,300,13), t_len = 39, n_samples = 50, n_display=10)
-#plot_dataset.plot_series3('datasets/DATASET-1', (300,300,13), t_len = 39, n_samples = 50, n_display=10)
-
 ##############################################################################################################
 
 ## Ground Truths
-gt_0           = plt.imread('tmp/LSTMv1/20230108-192300/res/gt/epoch-30/gt-0.png')[...,0]
-gt_7           = plt.imread('tmp/LSTMv1/20230108-192300/res/gt/epoch-30/gt-7.png')[...,0]
+gt_0           = plt.imread('tmp/LSTMv1/20230108-192300/res/gt/epoch-30/gt-0.png' )[...,0]
+gt_7           = plt.imread('tmp/LSTMv1/20230108-192300/res/gt/epoch-30/gt-7.png' )[...,0]
 gt_15          = plt.imread('tmp/LSTMv1/20230108-192300/res/gt/epoch-30/gt-15.png')[...,0]
 
+gt_0 = 2*gt_0 - 1
+gt_7 = 2*gt_7 - 1
+gt_15 = 2*gt_15 - 1
+
 ## LSTM RESULTS
-lstm_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png')[...,0]
-lstm_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png')[...,0]
+lstm_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png' )[...,0]
+lstm_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png' )[...,0]
 lstm_pr_15     = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-15.png')[...,0]
 
+lstm_pr_0   = 2*lstm_pr_0  - 1
+lstm_pr_7   = 2*lstm_pr_7  - 1
+lstm_pr_15  = 2*lstm_pr_15 - 1
+
+## Bi-LSTM RESULTS ***
+bilstm_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png' )[...,0]
+bilstm_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png' )[...,0]
+bilstm_pr_15     = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-15.png')[...,0]
+
+bilstm_pr_0   = 2*bilstm_pr_0  - 1
+bilstm_pr_7   = 2*bilstm_pr_7  - 1
+bilstm_pr_15  = 2*bilstm_pr_15 - 1
+
+## TD-CNN RESULTS ***
+tdcnn_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png')[...,0]
+tdcnn_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png')[...,0]
+tdcnn_pr_15     = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-15.png')[...,0]
+
+tdcnn_pr_0   = 2*tdcnn_pr_0  - 1
+tdcnn_pr_7   = 2*tdcnn_pr_7  - 1
+tdcnn_pr_15  = 2*tdcnn_pr_15 - 1
+
+## Numerical Results ***
 lstm_results   = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 bilstm_results = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 tdcnn_results  = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 
 
+##############################################################################################################
 fig, axes = plt.subplot_mosaic('ABCD;EFGH;IJKL;MMMM;NNNN;OOOO')#plt.subplots(nrows = 4, ncols = 4)
 
-print(lstm_results.columns)
-cmap = "viridis"
+cmap = "jet"
 
 # Ground truth
-axes['A'].imshow(gt_0,  cmap = mpl.colormaps[cmap])
+axes['A'].imshow(gt_0,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['A'].axis(False)
 axes['A'].set_title('Ground Truth')
-axes['E'].imshow(gt_7,  cmap = mpl.colormaps[cmap])
+axes['E'].imshow(gt_7,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['E'].axis(False)
-axes['I'].imshow(gt_15, cmap = mpl.colormaps[cmap])
+axes['I'].imshow(gt_15, cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['I'].axis(False)
 
 # ConvLSTM Prediction
-axes['B'].imshow(lstm_pr_0,  cmap = mpl.colormaps[cmap])
+axes['B'].imshow(lstm_pr_0,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['B'].axis(False)
 axes['B'].set_title('ConvLSTM')
-axes['F'].imshow(lstm_pr_7,  cmap = mpl.colormaps[cmap])
+axes['F'].imshow(lstm_pr_7,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['F'].axis(False)
-axes['J'].imshow(lstm_pr_15, cmap = mpl.colormaps[cmap])
+axes['J'].imshow(lstm_pr_15, cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['J'].axis(False)
 
 # Bidirectional ConvLSTM Prediction
-axes['C'].imshow(lstm_pr_0,  cmap = mpl.colormaps[cmap])
+axes['C'].imshow(bilstm_pr_0,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['C'].axis(False)
 axes['C'].set_title('Bi-ConvLSTM')
-axes['G'].imshow(lstm_pr_7,  cmap = mpl.colormaps[cmap])
+axes['G'].imshow(bilstm_pr_7,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['G'].axis(False)
-axes['K'].imshow(lstm_pr_15, cmap = mpl.colormaps[cmap])
+axes['K'].imshow(bilstm_pr_15, cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['K'].axis(False)
 
 # Time Distributed CNN Prediction
-axes['D'].imshow(lstm_pr_0,  cmap = mpl.colormaps[cmap])
+axes['D'].imshow(tdcnn_pr_0,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['D'].axis(False)
 axes['D'].set_title('TD-CNN')
-axes['H'].imshow(lstm_pr_7,  cmap = mpl.colormaps[cmap])
+axes['H'].imshow(tdcnn_pr_7,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['H'].axis(False)
-axes['L'].imshow(lstm_pr_15, cmap = mpl.colormaps[cmap])
+axes['L'].imshow(tdcnn_pr_15, cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
 axes['L'].axis(False)
 
 # MSE
