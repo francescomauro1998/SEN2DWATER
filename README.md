@@ -11,7 +11,7 @@ Please note that in this repository you can find a small subset of the dataset, 
 
 ## Notes
 
-Please note that the results and the TensorBoard records are available in the [tep](tmp) folder. Each model has a separated folder in which you can find:
+Please note that the results and the TensorBoard records are available in the [tmp](tmp) folder. Each model has a separated folder in which you can find:
 
 - Visual and numerical results (res folder):
 	- df: dataframes for each epoch of training containing numerical results
