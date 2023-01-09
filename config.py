@@ -12,7 +12,7 @@ BANDS           = 1
 
 # This dictionary contains all the settins for the LSTM
 LSTM_CFG = {
-                'FILTERS':                  [32, 32, 32, 32],
+                'FILTERS':                  [64, 64, 64, 64],
                 'KERNELS':                  [3, 3, 3, 3],
                 'ACTIVATIONS':              ['tanh', 'tanh', 'tanh', 'tanh', 'tanh'], # the last one is for the final Conv2D layer
                 'LOSS':                     'huber',
