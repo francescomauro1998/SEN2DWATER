@@ -1,0 +1,111 @@
+var EARTH_RADIUS  = 6271.0
+var DEGREES_TO_RADIANS = 3.1415/180.0
+var RADIANS_TO_DEGREE = 180.0/3.1415
+
+function change_in_latitude(kms){
+  return (kms/EARTH_RADIUS)*RADIANS_TO_DEGREE;
+}
+
+function change_in_longitude(latitude, kms){
+    var r = EARTH_RADIUS*Math.cos(latitude*DEGREES_TO_RADIANS)
+    return (kms/r)*RADIANS_TO_DEGREE;
+}
+
+function get_coordinates_square(latitude, longitude, size){
+  var  half_size = size/2;
+  var  slat = latitude+change_in_latitude(-half_size);
+  var  nlat = latitude+change_in_latitude(half_size);
+  var  wlon = longitude+change_in_longitude(latitude, -half_size);
+  var  elon = longitude+change_in_longitude(latitude, half_size);
+  
+  return [[elon, nlat], [wlon, nlat], [wlon, slat], [elon, slat]];
+}
+//--------------------------------- USER VARs ----------------------------------
+var i;
+var AreaOfInterest = "Po";
+var lat_arr = [ 
+45.05930
+  ];
+var lon_arr = [
+9.70778
+  ];
+for (i=0; i <= (lon_arr.length - 1); i++) {
+var lat = lat_arr[i];
+var lon = lon_arr[i];
+console.log('Lat: ' + lat.toString() + ' Lon: ' + lon.toString())
+
+var year;
+var month;
+var month_plus;
+var stop_month;
+for (year = 2016; year <= 2022; year++) {
+  if (year == 2016) {
+    month = 7;
+    stop_month = 11;
+  } 
+  else {
+    month = 1;
+    stop_month = 12;
+  }
+  for (month; month <= stop_month; month++)	{
+    month_plus = month + 1;
+    var start_date = year.toString() + '-' + month.toString() + '-01';
+    var end_date =   year.toString() + '-' + month_plus.toString() + '-28';
+    
+    var folder = 's2data';
+    var export_name = 's2_'+folder+'_';
+    
+    var sizeinkm = 3
+    var zoom = 13
+    //--------------------------------- USER VARs ----------------------------------
+    
+  
+    var date = ee.Filter.date(start_date, end_date)
+    var polygon = get_coordinates_square(lat, lon, sizeinkm);
+    var geometry = ee.Geometry.Polygon(polygon);
+    Map.setCenter(lon, lat, zoom);
+    //Map.addLayer(geometry);
+    
+    
+    // Load Sentinel-2 TOA reflectance data.
+    
+    var s2dataset = ee.ImageCollection('COPERNICUS/S2_HARMONIZED')
+                      .filter(date)
+                      .filterBounds(geometry)
+                      .sort('system:time_start', true);
+                      
+    var image_Least_Cloud = ee.Image(s2dataset.sort('CLOUDY_PIXEL_PERCENTAGE', true).first());
+    print('Least cloudy image: ', image_Least_Cloud);
+    
+    var rgbVis = {
+      min: 0.0,
+      max: 3000,
+      bands: ['B4', 'B3', 'B2'],
+    };
+    
+    
+    
+      var id = image_Least_Cloud.id;
+      var image = image_Least_Cloud.toDouble();
+    
+      
+      var s2_name = image.date().format('yyyy-MM-dd').getInfo();
+      var name = s2_name.toString();
+      
+      var fold = "gee_data_" + AreaOfInterest.toString() + "_Lat_" + lat.toString() + "_Lon_" + lon.toString();
+      print(fold);
+      Export.image.toDrive({
+        image: image,
+        description: name,
+        fileNamePrefix: name, 
+        folder:fold,
+        scale: 10,
+        fileFormat: 'GeoTIFF',
+        region: geometry,
+      });
+      
+      Map.addLayer(image.clip(geometry), rgbVis, name, false);
+      month++;
+  }
+}
+}
