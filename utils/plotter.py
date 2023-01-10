@@ -26,9 +26,9 @@ lstm_pr_7   = 2*lstm_pr_7  - 1
 lstm_pr_15  = 2*lstm_pr_15 - 1
 
 ## Bi-LSTM RESULTS ***
-bilstm_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png' )[...,0]
-bilstm_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png' )[...,0]
-bilstm_pr_15     = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-15.png')[...,0]
+bilstm_pr_0      = plt.imread('tmp/BLSTMv1/20230109-044615/res/pr/epoch-35/pt-0.png' )[...,0]
+bilstm_pr_7      = plt.imread('tmp/BLSTMv1/20230109-044615/res/pr/epoch-35/pt-7.png' )[...,0]
+bilstm_pr_15     = plt.imread('tmp/BLSTMv1/20230109-044615/res/pr/epoch-35/pt-15.png')[...,0]
 
 bilstm_pr_0   = 2*bilstm_pr_0  - 1
 bilstm_pr_7   = 2*bilstm_pr_7  - 1
@@ -45,14 +45,14 @@ tdcnn_pr_15  = 2*tdcnn_pr_15 - 1
 
 ## Numerical Results ***
 lstm_results   = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
-bilstm_results = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
+bilstm_results = pd.read_csv('tmp/BLSTMv1/20230109-044615/res/df/epoch-35/results.csv', sep='\t')
 tdcnn_results  = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 
 
 ##############################################################################################################
 fig, axes = plt.subplot_mosaic('ABCD;EFGH;IJKL;MMMM;NNNN;OOOO')#plt.subplots(nrows = 4, ncols = 4)
 
-cmap = "jet"
+cmap = "gray"
 
 # Ground truth
 axes['A'].imshow(gt_0,  cmap = mpl.colormaps[cmap], vmin = -1, vmax = 1)
