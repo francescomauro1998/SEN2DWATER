@@ -4,4 +4,4 @@ __pycache__
 .swp
 DATASET-1
 DATASET-1-v2
-tmp/BLSTMv1
+tmp/ TDCNNv1

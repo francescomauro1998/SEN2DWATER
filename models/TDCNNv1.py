@@ -6,7 +6,6 @@ from tensorflow.keras.models import Model
 from utils.PlotterTensorboard import PlotterTensorboard
 
 from tensorflow.keras import backend as K
-import tensorflow as tf
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -131,7 +130,7 @@ class TDCNNv1:
                                            self.shape,
                                            normalize=normalize)
         # Callbacks
-        tb_path = os.path.join('tmp', ' TDCNNv1', datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
+        tb_path = os.path.join('tmp', 'TDCNNv1', datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         
         tb = TensorBoard(log_dir=tb_path, histogram_freq=1)
         es = EarlyStopping(monitor='val_loss', 
