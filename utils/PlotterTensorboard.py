@@ -37,7 +37,6 @@ class PlotterTensorboard(Callback):
         for i in range(y_in.shape[0]):
             plt.imsave(os.path.join(gt_path,'gt-{}.png'.format(i)), (y_in[i,...,0]*255).astype(np.uint8))
             plt.imsave(os.path.join(pr_path,'pt-{}.png'.format(i)), (y_pr[i,...,0]*255).astype(np.uint8))
-
             # Save results (text)
             x = tf.cast(y_in[i,...], tf.float32)
             y = tf.cast(y_pr[i,...], tf.float32)
