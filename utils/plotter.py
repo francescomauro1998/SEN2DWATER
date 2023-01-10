@@ -35,9 +35,9 @@ bilstm_pr_7   = 2*bilstm_pr_7  - 1
 bilstm_pr_15  = 2*bilstm_pr_15 - 1
 
 ## TD-CNN RESULTS ***
-tdcnn_pr_0      = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-0.png')[...,0]
-tdcnn_pr_7      = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-7.png')[...,0]
-tdcnn_pr_15     = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-15.png')[...,0]
+tdcnn_pr_0      = plt.imread('tmp/TDCNNv1/20230110-065019/res/pr/epoch-49/pt-0.png')[...,0]
+tdcnn_pr_7      = plt.imread('tmp/TDCNNv1/20230110-065019/res/pr/epoch-49/pt-7.png')[...,0]
+tdcnn_pr_15     = plt.imread('tmp/TDCNNv1/20230110-065019/res/pr/epoch-49/pt-15.png')[...,0]
 
 tdcnn_pr_0   = 2*tdcnn_pr_0  - 1
 tdcnn_pr_7   = 2*tdcnn_pr_7  - 1
@@ -46,7 +46,7 @@ tdcnn_pr_15  = 2*tdcnn_pr_15 - 1
 ## Numerical Results ***
 lstm_results   = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 bilstm_results = pd.read_csv('tmp/BLSTMv1/20230109-044615/res/df/epoch-35/results.csv', sep='\t')
-tdcnn_results  = pd.read_csv('tmp/ TDCNNv1/20230110-065019/res/df/epoch-24/results.csv', sep='\t')
+tdcnn_results  = pd.read_csv('tmp/TDCNNv1/20230110-065019/res/df/epoch-49/results.csv', sep='\t')
 
 
 ##############################################################################################################
