@@ -35,9 +35,9 @@ bilstm_pr_7   = 2*bilstm_pr_7  - 1
 bilstm_pr_15  = 2*bilstm_pr_15 - 1
 
 ## TD-CNN RESULTS ***
-tdcnn_pr_0      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-0.png')[...,0]
-tdcnn_pr_7      = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-7.png')[...,0]
-tdcnn_pr_15     = plt.imread('tmp/LSTMv1/20230108-192300/res/pr/epoch-30/pt-15.png')[...,0]
+tdcnn_pr_0      = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-0.png')[...,0]
+tdcnn_pr_7      = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-7.png')[...,0]
+tdcnn_pr_15     = plt.imread('tmp/ TDCNNv1/20230110-065019/res/pr/epoch-24/pt-15.png')[...,0]
 
 tdcnn_pr_0   = 2*tdcnn_pr_0  - 1
 tdcnn_pr_7   = 2*tdcnn_pr_7  - 1
@@ -46,7 +46,7 @@ tdcnn_pr_15  = 2*tdcnn_pr_15 - 1
 ## Numerical Results ***
 lstm_results   = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
 bilstm_results = pd.read_csv('tmp/BLSTMv1/20230109-044615/res/df/epoch-35/results.csv', sep='\t')
-tdcnn_results  = pd.read_csv('tmp/LSTMv1/20230108-192300/res/df/epoch-30/results.csv', sep='\t')
+tdcnn_results  = pd.read_csv('tmp/ TDCNNv1/20230110-065019/res/df/epoch-24/results.csv', sep='\t')
 
 
 ##############################################################################################################
@@ -104,7 +104,7 @@ axes['N'].plot(bilstm_results['SSIM'], '-*', label='Bi-ConvLSTM')
 axes['N'].plot(tdcnn_results['SSIM'], '-*', label='TD-CNN')
 axes['N'].set_ylabel('SSIM')
 axes['N'].set_xticklabels([''])
-axes['N'].legend(loc='lower right')
+#axes['N'].legend(loc='upper left')
 
 # PSNR
 axes['O'].plot(lstm_results['PNSR'], '-*', label='ConvLSTM')
@@ -112,12 +112,16 @@ axes['O'].plot(bilstm_results['PNSR'], '-*', label='Bi-ConvLSTM')
 axes['O'].plot(tdcnn_results['PNSR'], '-*', label='TD-CNN')
 axes['O'].set_ylabel('PSNR')
 axes['O'].set_xlabel('Tests')
-axes['O'].legend(loc='lower right')
+#axes['O'].legend(loc='upper left')
 
 #fig.tight_layout()
 plt.show()
 
 print('\n\n')
-print('Averaged MSE  - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['MSE'].mean(),  bilstm_results['MSE'].mean(),  tdcnn_results['MSE'].mean()))
-print('Averaged SSIM - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['SSIM'].mean(), bilstm_results['SSIM'].mean(), tdcnn_results['SSIM'].mean()))
-print('Averaged PSNR - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['PNSR'].mean(), bilstm_results['PNSR'].mean(), tdcnn_results['PNSR'].mean()))
+print('Mean of MSE  - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['MSE'].mean(),  bilstm_results['MSE'].mean(),  tdcnn_results['MSE'].mean()))
+print('Mean of SSIM - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['SSIM'].mean(), bilstm_results['SSIM'].mean(), tdcnn_results['SSIM'].mean()))
+print('Mean of PSNR - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['PNSR'].mean(), bilstm_results['PNSR'].mean(), tdcnn_results['PNSR'].mean()))
+
+print('Std of MSE  - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['MSE'].std(),  bilstm_results['MSE'].std(),  tdcnn_results['MSE'].std()))
+print('Std of SSIM - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['SSIM'].std(), bilstm_results['SSIM'].std(), tdcnn_results['SSIM'].std()))
+print('Std of PSNR - ConvLSTM {} - Bi-ConvLSTM {} - TD-CNN {}'.format(lstm_results['PNSR'].std(), bilstm_results['PNSR'].std(), tdcnn_results['PNSR'].std()))
