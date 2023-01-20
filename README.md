@@ -7,7 +7,7 @@ This repository contains the code related to our paper submitted to IGARSS2023
 
 Please note that in this repository you can find a small subset of the dataset, made available here to explore the structure of the final dataset and to have a quick look to the data. 
 
-[Click Here to Download the Final Dataset]()
+[Click Here to Download the Final Dataset](https://drive.google.com/drive/folders/1AYt8UYmgnTpeIDLY_4IFA_5LEBwYwaY8?usp=share_link)
 
 
 ## Usage
@@ -21,7 +21,7 @@ To train the models run the following command:
 `
 
 If you want to change some settings, you can edit the [config file](config.py). Here you can define:
--  the dataset you want to use and its train-validation split 
+- the dataset you want to use and its train-validation split 
 - image settings
 - models settings (there is only one entry that it is used for all the models)
 
