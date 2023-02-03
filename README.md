@@ -7,6 +7,7 @@ The final dataset contains the data used in the IGARSS2023 paper, but this is an
 
 [Click Here to Download the Final Dataset](https://drive.google.com/drive/folders/1AYt8UYmgnTpeIDLY_4IFA_5LEBwYwaY8?usp=share_link)
 
+In this repository you can find a small subset of the dataset, made available here to quickly explore the structure dataset and to have a quick look to the data.
 
 ## Usage
 
