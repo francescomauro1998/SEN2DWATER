@@ -3,9 +3,7 @@
 
 ![](imgs/dataset.png)
 
-This repository contains the code related to our paper submitted to IGARSS2023
-
-Please note that in this repository you can find a small subset of the dataset, made available here to explore the structure of the final dataset and to have a quick look to the data. 
+The final dataset contains the data used in the IGARSS2023 paper, but this is an evolving dataset growing time by time, so its size may change. We are currently working on its extensions and on its versioning. 
 
 [Click Here to Download the Final Dataset](https://drive.google.com/drive/folders/1AYt8UYmgnTpeIDLY_4IFA_5LEBwYwaY8?usp=share_link)
 
