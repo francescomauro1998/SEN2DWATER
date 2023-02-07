@@ -1,4 +1,4 @@
-# SEN2DWATER: A Novel Multitemporal Dataset and Deep Learning Benchmark For Water Resources Analysis
+# SEN2DWATER: A Novel Multispectral and Multitemporal Dataset and Deep Learning Benchmark For Water Resources Analysis
 #### Authors: [Francesco Mauro](https://github.com/francescomauro1998), [Alessandro Sebastianelli](https://alessandrosebastianelli.github.io/), [Silvia Liberata Ullo](https://github.com/silvullo64)
 
 ![](imgs/dataset.png)
